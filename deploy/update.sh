@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Auto-update script for homepage.
+# Runs every 5 min via cron. Checks ghcr.io for a new image and redeploys.
+# (Watchtower is not used — it is incompatible with rootless Podman on RHEL.)
+set -euo pipefail
+
+COMPOSE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LOG="$COMPOSE_DIR/update.log"
+IMAGE=ghcr.io/saavuori/homepage:latest
+
+if command -v podman-compose >/dev/null 2>&1; then
+  ENGINE=podman; COMPOSE="podman-compose"
+elif command -v podman >/dev/null 2>&1 && podman compose version >/dev/null 2>&1; then
+  ENGINE=podman; COMPOSE="podman compose"
+elif command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then
+  ENGINE=docker; COMPOSE="docker compose"
+else
+  ENGINE=docker; COMPOSE="docker-compose"
+fi
+
+# Cron appends to the log every 5 minutes for as long as the host runs; keep
+# only the newest lines so it cannot fill the disk.
+if [ -f "$LOG" ] && [ "$(wc -l < "$LOG")" -gt 5000 ]; then
+  tail -n 2000 "$LOG" > "$LOG.tmp" && mv "$LOG.tmp" "$LOG"
+fi
+
+echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] Checking for updates..." >> "$LOG"
+
+$ENGINE pull $IMAGE >> "$LOG" 2>&1
+
+NEW_ID=$($ENGINE inspect $IMAGE --format '{{.Id}}')
+RUNNING_ID=$($ENGINE inspect homepage --format '{{.Image}}' 2>/dev/null || echo '')
+
+if [ "$RUNNING_ID" = "$NEW_ID" ]; then
+  echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] Already up to date." >> "$LOG"
+  exit 0
+fi
+
+echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] New image detected! Redeploying..." >> "$LOG"
+
+# Full down/up — the only reliable way with rootless Podman
+cd "$COMPOSE_DIR"
+$COMPOSE down >> "$LOG" 2>&1 || true
+$COMPOSE up -d >> "$LOG" 2>&1
+
+echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] Redeploy complete." >> "$LOG"

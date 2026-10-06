@@ -1,0 +1,28 @@
+# Production stack for the saavuori.live homepage (rootless Podman on the
+# Oracle host).
+#
+# TLS termination is NOT here: the Caddy container from the ratikka stack owns
+# :80/:443 on this host and reverse-proxies the public domain (passed to
+# deploy/install.sh) to this backend over the shared external `web-proxy`
+# network.
+#
+# The homepage stores nothing — it serves a static page and probes the apps'
+# public URLs — so this is a single stateless container.
+services:
+  homepage:
+    image: ghcr.io/saavuori/homepage:latest
+    container_name: homepage
+    restart: unless-stopped
+    environment:
+      - PORT=8080
+    networks:
+      - default
+      - web-proxy
+
+networks:
+  # `default` must be declared explicitly: the podman-compose on the host errors
+  # with "missing networks: default" when a service names it but the top-level
+  # networks block doesn't define it.
+  default:
+  web-proxy:
+    external: true
