@@ -3,6 +3,12 @@
 All notable changes to this project are documented here. The version headings
 match the tags CI generates on each push to `main`.
 
+## [v0.0.4] - 2026-10-07
+
+### Added
+- **FingridFlow Live** on the board and in the app list: Finland's power system
+  live and every Fingrid open dataset, at fingrid.saavuori.live.
+
 ## [v0.0.1] - 2026-10-06
 
 ### Added

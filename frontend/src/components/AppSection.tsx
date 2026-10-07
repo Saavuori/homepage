@@ -35,9 +35,11 @@ export function AppSection({ app, status }: { app: App; status?: AppStatus }) {
           <a className="btn" href={app.repo}>
             Source
           </a>
-          <a className="btn" href={app.changelog}>
-            Changelog
-          </a>
+          {app.changelog && (
+            <a className="btn" href={app.changelog}>
+              Changelog
+            </a>
+          )}
         </div>
 
         <p className="app-meta">

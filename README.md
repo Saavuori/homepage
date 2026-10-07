@@ -9,6 +9,7 @@ display that the server refreshes every minute.
 | HSL Live | [hsl.saavuori.live](https://hsl.saavuori.live) | Every tram, bus, metro, train and ferry in Helsinki in real time | [ratikka](https://github.com/Saavuori/ratikka) |
 | Fintraffic LIVE | [liikenne.saavuori.live](https://liikenne.saavuori.live) | Ships, trains and road traffic across Finland | [Fintraffic](https://github.com/Saavuori/Fintraffic) |
 | finstats | [finstat.saavuori.live](https://finstat.saavuori.live) | Statistics Finland's open tables as charts and maps | [FinStats](https://github.com/Saavuori/FinStats) |
+| FingridFlow Live | [fingrid.saavuori.live](https://fingrid.saavuori.live) | Finland's power system live, and every Fingrid open dataset | [fingrid-data-collector](https://github.com/Saavuori/fingrid-data-collector) |
 
 ## How it works
 

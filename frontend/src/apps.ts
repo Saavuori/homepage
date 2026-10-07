@@ -13,7 +13,8 @@ export interface App {
   /** Where the data comes from, in the publisher's own words. */
   data: string
   repo: string
-  changelog: string
+  /** Omitted for apps without a published changelog page. */
+  changelog?: string
 }
 
 export const APPS: App[] = [
@@ -63,6 +64,21 @@ export const APPS: App[] = [
     data: 'Statistics Finland StatFin database, CC BY 4.0',
     repo: 'https://github.com/Saavuori/FinStats',
     changelog: 'https://saavuori.github.io/FinStats/',
+  },
+  {
+    id: 'fingrid',
+    name: 'FingridFlow Live',
+    boardName: 'FINGRID',
+    url: 'https://fingrid.saavuori.live',
+    tagline:
+      'Finland’s power system right now, and every one of Fingrid’s open datasets as a chart.',
+    features: [
+      'See consumption, production by type and cross-border flows, with forecasts for the day ahead',
+      'Watch grid frequency, CO₂ intensity, and any power-shortage alert as it is issued',
+      'Search the full bilingual catalogue and open any dataset as a chart, table or CSV',
+    ],
+    data: 'Fingrid open data, CC BY 4.0',
+    repo: 'https://github.com/Saavuori/fingrid-data-collector',
   },
 ]
 
