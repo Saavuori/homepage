@@ -1,7 +1,7 @@
 # homepage
 
 The front page of `saavuori.live`. It lists the user's published apps (HSL Live,
-Fintraffic LIVE, finstats — each on a `<name>.saavuori.live` subdomain) and shows
+Fintraffic LIVE, finstats, FingridFlow Live — each on a `<name>.saavuori.live` subdomain) and shows
 whether each one is up, on a dot-matrix "departure board". A small Go backend
 embeds the built frontend and serves it as a single binary.
 

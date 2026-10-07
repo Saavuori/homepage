@@ -22,6 +22,7 @@ var Targets = []Target{
 	{ID: "hsl", URL: "https://hsl.saavuori.live"},
 	{ID: "liikenne", URL: "https://liikenne.saavuori.live"},
 	{ID: "finstat", URL: "https://finstat.saavuori.live"},
+	{ID: "fingrid", URL: "https://fingrid.saavuori.live"},
 }
 
 const (
